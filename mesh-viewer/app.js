@@ -28,11 +28,19 @@ function init() {
     directionalLight.position.set( 0, 0, 1 );
     scene.add( directionalLight );
 
-    loadMeshFromAssets("mesh/cerberus/Cerberus.obj", 
-                        'mesh/cerberus/Cerberus_A.jpg',
-                        'mesh/cerberus/Cerberus_R.jpg',
-                        'mesh/cerberus/Cerberus_M.jpg',
-                        'mesh/cerberus/Cerberus_N.jpg');
+    if (false) {
+        loadMeshFromFile('../assets/mesh/cerberus/Cerberus.obj', {
+                            'albedo': '../assets/mesh/cerberus/Cerberus_A.jpg',
+                            'roughness': '../assets/mesh/cerberus/Cerberus_R.jpg',
+                            'metalness': '../assets/mesh/cerberus/Cerberus_M.jpg',
+                            'normal': '../assets/mesh/cerberus/Cerberus_N.jpg'
+                        });
+    }
+    else {
+        loadMeshFromFile('../assets/mesh/duck/duck.gltf');
+    }
+
+
     //
 
     renderer = new THREE.WebGLRenderer();
