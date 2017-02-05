@@ -29,7 +29,7 @@ function init() {
     scene.add( directionalLight );
 
     if (false) {
-        loadMeshFromFile('../assets/mesh/cerberus/Cerberus.obj', {
+        playpen.loadMeshFromFile('../assets/mesh/cerberus/Cerberus.obj', {
                             'albedo': '../assets/mesh/cerberus/Cerberus_A.jpg',
                             'roughness': '../assets/mesh/cerberus/Cerberus_R.jpg',
                             'metalness': '../assets/mesh/cerberus/Cerberus_M.jpg',
@@ -37,7 +37,10 @@ function init() {
                         });
     }
     else {
-        loadMeshFromFile('../assets/mesh/duck/duck.gltf');
+        // loadMeshFromFile('../assets/mesh/duck/duck.gltf');
+        playpen.loadMeshFromFile('../assets/mesh/astroboy_walk.dae/astroboy_walk.dae', {
+                        'albedo': '../assets/mesh/astroboy_walk.dae/seymour.jpg'
+                    });
     }
 
 
