@@ -1,33 +1,57 @@
 var container;
 
 var camera, scene, renderer;
+var controls;
+var stats;
 
 var mouseX = 0, mouseY = 0;
 
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
-init();
-animate();
+setup();
+draw();
 
-function init() {
+function setup() {
+
+    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
-    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-    camera.position.z = 0;
+    //
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    container.appendChild( renderer.domElement );
+
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    camera.position.z = 5;
+
+    controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enableZoom = true;
+
+    stats = new Stats();
+    container.appendChild( stats.dom );
 
     // scene
     scene = new THREE.Scene();
 
-    var ambient = new THREE.AmbientLight( 0x101030 );
-    scene.add( ambient );
+    // lights
 
-    var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-    directionalLight.position.set( 0, 0, 1 );
-    scene.add( directionalLight );
+    light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 1, 1, 1 );
+    scene.add( light );
 
+    light = new THREE.DirectionalLight( 0x002288 );
+    light.position.set( -1, -1, -1 );
+    scene.add( light );
+
+    light = new THREE.AmbientLight( 0x222222 );
+    scene.add( light );
+                
     if (false) {
         playpen.loadMeshFromFile('../assets/mesh/cerberus/Cerberus.obj', {
                             'albedo': '../assets/mesh/cerberus/Cerberus_A.jpg',
@@ -43,57 +67,29 @@ function init() {
                     });
     }
 
-
     //
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    container.appendChild( renderer.domElement );
-
-    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
-    //
-
     window.addEventListener( 'resize', onWindowResize, false );
 
 }
 
 function onWindowResize() {
 
-    windowHalfX = window.innerWidth / 2;
-    windowHalfY = window.innerHeight / 2;
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 }
 
-function onDocumentMouseMove( event ) {
-
-    mouseX = ( event.clientX - windowHalfX ) / 2;
-    mouseY = ( event.clientY - windowHalfY ) / 2;
-
-}
 
 //
 
-function animate() {
+function draw() {
 
-    requestAnimationFrame( animate );
-    render();
+    requestAnimationFrame( draw );
 
-}
+    controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
 
-function render() {
-
-    camera.position.x += ( mouseX - camera.position.x ) * .05;
-    camera.position.y += ( - mouseY - camera.position.y ) * .05;
-
-    camera.lookAt( scene.position );
+    stats.update();
 
     renderer.render( scene, camera );
-
 }
