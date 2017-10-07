@@ -332,9 +332,18 @@ JING.Globe = function(container, opts) {
     distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
   }
 
-  function animate(time) {
+  var lastTimeStamp = 0;
+  var yearIndex = 0;
+  var changeYearIndexDuration = 1000;
+  function animate(timeStamp) {
     requestAnimationFrame(animate);
 
+    if (timeStamp - lastTimeStamp > changeYearIndexDuration) {
+      lastTimeStamp = timeStamp;
+      settime(globe, yearIndex)();
+      yearIndex = parseInt(Math.random()*4);
+      changeYearIndexDuration = Math.random() * 200 + 100;
+    }
     // if (time !== undefined) TWEEN.update(time);
 
     render();
