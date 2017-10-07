@@ -334,7 +334,8 @@ JING.Globe = function(container, opts) {
 
   function animate(time) {
     requestAnimationFrame(animate);
-    TWEEN.update(time);
+
+    // if (time !== undefined) TWEEN.update(time);
 
     render();
   }

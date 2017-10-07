@@ -16,6 +16,7 @@ if(!Detector.webgl){
   };
   
   var xhr;
+  TWEEN.start();
   
   xhr = new XMLHttpRequest();
   xhr.open('GET', 'population909500.json', true);
